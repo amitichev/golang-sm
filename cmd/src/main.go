@@ -54,7 +54,7 @@ func writeToTarantool() {
 	start := time.Now()
 	size := int(1e5)
 	var data []byte
-	var prevint int
+	//var prevint int
 	for i := 0; i != size; i++ {
 		var k = 0
 		for b[0] != 0 {
@@ -64,11 +64,11 @@ func writeToTarantool() {
 
 				var tmp RequestStruct
 				msgpack.Unmarshal(data, &tmp)
-				fmt.Println(tmp, prevint)
+				//fmt.Println(tmp, prevint)
 			}
 		}
 
-		prevint = i
+		//prevint = i
 		data, _ = msgpack.Marshal(&RequestStruct{Val: i})
 		copy(b[1:], data)
 		// wait for data written right

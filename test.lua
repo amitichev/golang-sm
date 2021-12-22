@@ -35,7 +35,7 @@ local function getdata()
     sm_data[0] = 0
     while true do
         while sm_data[0] == 0 do
-            fiber.yield()
+            --fiber.yield()
         end
         assert(sm_data[0] == 1, tostring(sm_data[0]))
         assert(sm_data[0] == 1, tostring(sm_data[0]))
@@ -57,12 +57,13 @@ end
 
 
 local function senddata()
+    jit.off(true)
     local sm_id = ffi.C.shmget(2021, 1024, 932)
     local sm_data = ffi.cast("char*", ffi.C.shmat(sm_id, ffi.cast("void*", 0), 0))
     
     for _, tuple in box.space["test"]:pairs() do
         while sm_data[0] ~= 0 do 
-            fiber.yield()
+            --fiber.yield()
         end
         local data = msgpack.encode({['Val']=tuple[1]})
         ffi.copy(sm_data+1, data) 
